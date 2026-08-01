@@ -1,7 +1,13 @@
 <!--  This file is app/views/movies/index.html.erb -->
 <p style="color: green"><%= notice %></p>
 
-<%#  Part 2: Start here... %>
+# <div>
+#   <label class="form-label me-2" for="sort_by">Sort by:</label>
+#   <%= select_tag :sort_by,
+#                  options_for_select([["Title", "title"],
+#                                      ["Release date", "release_date"]], @sort_by), 
+#                  id: "sort_by", class: "form-select d-inline w-auto" %>
+# </div>
 
 <h1>Movies</h1>
 <%= form_tag movies_path, method: :get, id: 'ratings_form', local: true do %>
@@ -12,8 +18,19 @@
       <%= label_tag "ratings[#{rating}]", rating, class: 'form-check-label' %>
     </div>
   <% end %>
+  <div>
+  <label class="form-label me-2" for="sort_by">Sort by:</label>
+  <%= select_tag :sort_by,
+                 options_for_select([["Title", "title"],
+                                     ["Release date", "release_date"]], @sort_by), 
+                 id: "sort_by", class: "form-select d-inline w-auto" %>
+  </div>
   <%= submit_tag 'Refresh', id: 'ratings_submit', class: 'btn btn-primary' %>
 <% end %>
+
+<%= link_to "Sort by Title", movies_path(sort_by: 'title', ratings: @ratings_to_show.to_h { |r| [r, '1'] }) %>
+
+<%= link_to "Sort by Release Date", movies_path(sort_by: 'release_date', ratings: @ratings_to_show.to_h { |r| [r, '1'] }) %>
 
 <div id="movies">
   <% @movies.each do |movie| %>
